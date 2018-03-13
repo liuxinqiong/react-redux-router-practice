@@ -14,3 +14,20 @@
 加密
 * npm install utility --save
 * 加盐
+
+注意ES6箭头函数
+* 简写return：如果只有一行语句，省略return和{}，直接写表达式即可
+* 如果返回的就要{}对象呢，那么需要使用()包裹{}
+
+属性验证库 PropTypes 
+* 15以及15以前是内置在react中的，16被抽离了出来
+* npm install prop-types --save
+* 具体类型有
+  * PropTypes.array
+  * PropTypes.bool
+  * PropTypes.func
+  * PropTypes.number
+  * PropTypes.object
+  * PropTypes.string
+  * PropTypes.symbol
+* 追加isRequired声明他是必传的
