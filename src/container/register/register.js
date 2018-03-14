@@ -36,6 +36,7 @@ class Register extends React.Component {
         const RadioItem = Radio.RadioItem;
         return (
             <div>
+                {/* todo 退出登录开始注册，无法跳转注册页面 */}
                 {this.props.redirectTo ? <Redirect to={this.props.redirectTo}></Redirect> : null}
                 <Logo></Logo>
                 <List>

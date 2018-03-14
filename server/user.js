@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const models = require('./model');
 const User = models.getModel('user');
+const Chat = models.getModel('chat');
 const md5Pwd = require('./util').md5Pwd;
 const _filter = { pwd: 0, __v: 0 };
 
@@ -27,6 +28,24 @@ router.get('/list', function (req, res) {
     const filter = type ? { type } : {};
     User.find(filter, function (err, doc) {
         res.json({ code: 0, data: doc });
+    })
+})
+
+router.get('/getMsgList', function (req, res) {
+    const user = req.cookies.userid;
+    let users = {};
+    // todo:需要用promise，存在异步问题
+    User.find({}, function (err, doc) {
+        // 构建user数据字典
+        doc.forEach(v => {
+            users[v._id] = { name: v.user, avatar: v.avatar }
+        });
+    })
+
+    Chat.find({ '$or': [{ from: user }, { to: user }] }, function (err, doc) {
+        if (!err) {
+            return res.json({ code: 0, msgs: doc, users: users })
+        }
     })
 })
 
@@ -57,6 +76,22 @@ router.post('/register', function (req, res) {
         })
         */
     })
+})
+
+router.post('/readMsg', function (req, res) {
+    const userid = req.cookies.userid;
+    const { from } = req.body;
+    Chat.update(
+        { from, to: userid },
+        { '$set': { read: true } },
+        { 'multi': true },
+        function (err, doc) {
+            if (!err) {
+                // doc {n:1,nModified:0,ok:1} 几条数据 修改了几条数据 ok:1表示成功
+                return res.json({ code: 0, num: doc.nModified })
+            }
+            return res.json({ code: 1, msg: '修改失败' })
+        })
 })
 
 router.post('/update', function (req, res) {

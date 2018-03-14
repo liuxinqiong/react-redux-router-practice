@@ -45,3 +45,31 @@
   * 代码复用
   * 逻辑抽象
   * 反向继承
+
+
+Socket.io 是什么
+* 基于事件的实时双向通信库
+* 基于websocket协议
+
+Socket.io(websocket) 与 ajax 区别
+* ajax基于http协议，单向，实时获取数据只能轮询
+* socket.io 基于websocket双向通信协议，后端可以主动推送数据
+* 现代浏览器均支持websocket
+* npm install socket.io socket.io-client --save
+
+Socket.io 后端API
+* io = require('socket.io')(http)
+* io.on
+* io.emit
+
+Socket.io 前端API
+* import io from 'socket.io-client'
+* io.on
+* io.emit
+
+forEach map reducer 区别 
+* https://www.zhihu.com/question/24927450
+
+1. eslint
+2. react16特有的错误处理机制
+3. react性能优化

@@ -7,14 +7,12 @@ import NavLinkBar from '../navlink/navlink';
 import Boss from '../../component/boss/boss';
 import Genius from '../../component/genius/genius';
 import User from '../../component/user/user';
-
-function Msg() {
-    return <h1>Msg index</h1>
-}
+import Msg from '../../component/msg/msg';
+import { getMsgList, recvMsg } from '../../redux/chat.redux'
 
 @connect(
     state => state,
-
+    { getMsgList, recvMsg }
 )
 class Dashboard extends React.Component {
     constructor(props) {
@@ -22,9 +20,19 @@ class Dashboard extends React.Component {
     }
 
 
+    componentDidMount() {
+        // 不然导致多次绑定多个socket
+        // todo：其实还是有问题的，如果初始为空呢
+        if (!this.props.chat.chatmsg.length) {
+            this.props.getMsgList()
+            this.props.recvMsg();
+        }
+    }
+
     render() {
         const user = this.props.user;
         const pathname = this.props.location.pathname;
+        // todo:没有默认页面，不在几者之中会报错
         const navList = [
             { path: '/boss', text: '牛人', icon: 'boss', title: '牛人列表', component: Boss, hide: user.type === 'genius' },
             { path: '/genius', text: 'boss', icon: 'job', title: 'BOSS列表', component: Genius, hide: user.type === 'boss' },
@@ -34,7 +42,7 @@ class Dashboard extends React.Component {
         return (
             <div>
                 <NavBar className='fixed-header' mode='dark'>{navList.find(v => v.path === pathname).title}</NavBar>
-                <div stype={{ marginTop: 45 }}>
+                <div style={{ marginTop: 45 }}>
                     <Switch>
                         {navList.map(v => (
                             <Route key={v.path} path={v.path} component={v.component}></Route>
