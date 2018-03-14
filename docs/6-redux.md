@@ -48,6 +48,7 @@ react-redux具体使用
 * provider组件在应用最外层，传入store即可，只用一次
 * Connect负责从外部获取组件需要的参数
 * Connect可以用装饰器的方式来写
+  * 本质是一个高阶组件
   * 自定义配置 npm run eject
   * npm install babel-plugin-transform-decorators-legacy --save-dev
   * package.json里babel加上plugins配置

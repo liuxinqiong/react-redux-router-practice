@@ -31,3 +31,17 @@
   * PropTypes.string
   * PropTypes.symbol
 * 追加isRequired声明他是必传的
+
+操作cookies
+* npm install browser-cookies --save
+
+高阶组件
+* 用来添加和增强功能
+* 可以使用装饰器模式@简写
+* 两种功能的高阶组件
+  * 属性代理：添加额外属性和元素
+  * 反向继承：不继承React.Component，而是继承当前组件，添加新函数，或者新生命周期，如果父组件同时存在对应生命周期，则均会执行
+* 目的
+  * 代码复用
+  * 逻辑抽象
+  * 反向继承

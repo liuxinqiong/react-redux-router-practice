@@ -1,22 +1,15 @@
 import React from 'react';
 import { NavBar } from 'antd-mobile';
 import { connect } from 'react-redux';
-import NavLinkBar from '../navlink/navlink';
-
 import { Switch, Route } from 'react-router-dom';
 
+import NavLinkBar from '../navlink/navlink';
 import Boss from '../../component/boss/boss';
-
-function Genius() {
-    return <h1>Genius index</h1>
-}
+import Genius from '../../component/genius/genius';
+import User from '../../component/user/user';
 
 function Msg() {
     return <h1>Msg index</h1>
-}
-
-function User() {
-    return <h1>User index</h1>
 }
 
 @connect(

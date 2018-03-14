@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card, WhiteSpace, WingBlank } from 'antd-mobile';
 import { connect } from 'react-redux'
 import { getUserList } from '../../redux/chatuser.redux';
 import UserCard from '../../component/usercard/usercard'
@@ -8,10 +7,10 @@ import UserCard from '../../component/usercard/usercard'
     state => state.chatuser,
     { getUserList }
 )
-class Boss extends React.Component {
+class Genius extends React.Component {
 
     componentDidMount() {
-        this.props.getUserList('genius');
+        this.props.getUserList('boss');
     }
     render() {
         return (
@@ -20,4 +19,4 @@ class Boss extends React.Component {
     }
 }
 
-export default Boss;
+export default Genius;
