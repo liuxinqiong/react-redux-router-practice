@@ -1,8 +1,16 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import { Provider } from 'react-redux';
+// import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from './mini-redux'
+
+import thunk from './mini-redux-thunk';
+// import thunk from 'redux-thunk';
+
+import arrayThunk from './mini-redux-array';
+
+import { Provider } from './mini-react-redux';
+// import { Provider } from 'react-redux';
+
 import { BrowserRouter, Route, Link, Redirect, Switch } from 'react-router-dom';
 
 import App from './App';
@@ -10,12 +18,15 @@ import reducer from './reducer';
 import Auth from './Auth';
 import Dashboard from './Dashboard';
 import './config';
+// import './learn.redux'
+// import Page from './context.demo'
+
+// ReactDom.render(<Page></Page>, document.getElementById('root'));
 
 const reduxDevtools = window.devToolsExtension;
 
-const store = createStore(reducer, compose(applyMiddleware(thunk), reduxDevtools ? reduxDevtools() : f => f));
-
-console.log(store.getState());
+// compose(applyMiddleware(thunk), reduxDevtools ? reduxDevtools() : f => f)
+const store = createStore(reducer, applyMiddleware(thunk, arrayThunk));
 
 class Test extends React.Component {
     render() {
@@ -26,16 +37,28 @@ class Test extends React.Component {
 
 ReactDom.render(
     (<Provider store={store}>
-        <BrowserRouter>
+        <App></App>
+        {/* <BrowserRouter>
             <Switch>
                 <Route path='/login' component={Auth}></Route>
                 <Route path='/dashboard' component={Dashboard}></Route>
                 <Redirect to='/dashboard'></Redirect>
             </Switch>
-        </BrowserRouter>
+        </BrowserRouter> */}
     </Provider>),
     document.getElementById('root')
 );
+
+// const add = (x) => (y) => x + y + 3;
+// console.log(add(2)(3));
+
+// const obj = { name: 'sky', type: 'boy' }
+
+// function sayHello(...args) {
+//     console.log(...args);
+// }
+
+// sayHello(1, 2, 3, 4, 5, 6, 7)
 
 // function render() {
 //     ReactDom.render(<App store={store} addGun={addGun} removeGun={removeGun} addGunAsync={addGunAsync} />, document.getElementById('root'));

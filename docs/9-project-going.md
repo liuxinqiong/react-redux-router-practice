@@ -47,7 +47,7 @@
   * 反向继承
 
 
-Socket.io 是什么
+# Socket.io 是什么
 * 基于事件的实时双向通信库
 * 基于websocket协议
 
@@ -73,3 +73,62 @@ forEach map reducer 区别
 1. eslint
 2. react16特有的错误处理机制
 3. react性能优化
+
+# React进阶
+* React原理
+  * 虚拟DOM
+    * beforeTree和afterTree平级对比，而不是递归对比
+    * 避免跨DOM层级去操作数据，这样虚拟DOM无法优化
+    * 如何做diff，打patch，updateChildren，需深入
+  * 组件初始化：constuctor-》componentWillMount-》render-》componentDidMount
+  * 生命周期，shouldComponentUpdate(nextProps,nextState)（可优化处，达到最少渲染次数）
+  * 组件更新三种策略
+    * setState（异步队列更新）：依次调用shouldComponentUpdate-》componentWillUpdate-》render-》componentDidUpdate
+    * 父组件renders：componentWillReceiveProps-》shouldComponentUpdate-》componentWillUpdate-》render-》componentDidUpdate
+    * forceUpdate：用的较少，不会调用shouldComponentUpdate
+* Redux原理（基本API，React-Redux API）
+* React + Redux 常见性能优化
+  * React本身（组件内部，组件外部）
+  * SSR
+  * 路由懒加载
+  * Redux state到组件显示数据转换，有性能优化空间
+* 实现自己thunk
+
+源码分析
+```js
+React.createElement = function(type,config,children){
+  var propName;
+  var props={};
+  var key=null;
+  var ref=null;
+  var source=null;
+  // ......
+  return ReactElement(
+    type,
+    key,
+    ref,
+    self,
+    source,
+    ReactCurrentOwner.current,
+    props
+  )
+}
+
+var ReactElement = function(type,key,ref,self,source,owner,props){
+  var element = {
+    // this tag allow us to uniquely identify this as a React Element
+    $$typeof:REACT_ELEMENT_TYPE,
+
+    // built-in properties that belong on the element
+    type:type,
+    key:key,
+    ref:ref,
+    props:props,
+
+    // record the component responsible for creating this element
+    _owner:owner
+  }
+}
+```
+
+childContextTypes contextTypes propTypes

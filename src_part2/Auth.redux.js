@@ -12,7 +12,6 @@ const initState = {
 }
 
 export function auth(state = initState, action) {
-    console.log(state);
     switch (action.type) {
         case LOGIN:
             return { ...state, isAuth: true };

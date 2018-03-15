@@ -3,7 +3,6 @@ const REMOVE_GUN = '减激光枪';
 
 // reducer
 export function counter(state = 10, action) {
-    console.log(state);
     switch (action.type) {
         case ADD_GUN:
             return state + 1;
@@ -21,6 +20,10 @@ export function addGun() {
 
 export function removeGun() {
     return { type: REMOVE_GUN };
+}
+
+export function addTwice() {
+    return [{ type: ADD_GUN }, { type: ADD_GUN }];
 }
 
 export function addGunAsync() {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { addGun, removeGun, addGunAsync } from './index.redux';
+import { connect } from './mini-react-redux';
+import { addGun, removeGun, addGunAsync, addTwice } from './index.redux';
 
 // const mapStateToProps = (state) => {
 //     return { num: state };
@@ -13,7 +13,8 @@ import { addGun, removeGun, addGunAsync } from './index.redux';
     // 你要state的什么属性放到props
     state => ({ num: state.counter }),
     // 你要什么方法放到props，会自动dispatch
-    { addGun, removeGun, addGunAsync })
+    { addGun, removeGun, addGunAsync, addTwice }
+)
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -25,12 +26,15 @@ class App extends React.Component {
         const addGun = this.props.addGun;
         const removeGun = this.props.removeGun;
         const addGunAsync = this.props.addGunAsync;
+        const addTwice = this.props.addTwice;
+
         return (
             <div>
                 <h1>现在有激光枪{num}把</h1>
                 <button onClick={addGun}>申请武器</button>
                 <button onClick={removeGun}>回收武器</button>
                 <button onClick={addGunAsync}>拖两天</button>
+                <button onClick={addTwice}>申请两把</button>
             </div>
         );
     }
