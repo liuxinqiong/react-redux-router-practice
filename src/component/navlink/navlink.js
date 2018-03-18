@@ -14,6 +14,14 @@ class NavLinkBar extends React.Component {
         data: PropTypes.array.isRequired
     }
 
+    constructor(props) {
+        super(props);
+        this.iconStyle = {
+            height: 22,
+            width: 22
+        }
+    }
+
     render() {
         const navList = this.props.data.filter(v => !v.hide);
         const pathname = this.props.location.pathname;
@@ -25,8 +33,10 @@ class NavLinkBar extends React.Component {
                         key={v.path}
                         badge={v.path === '/msg' ? this.props.unread : 0}
                         title={v.text}
-                        icon={{ uri: require(`./img/${v.icon}.png`) }}
-                        selectedIcon={{ uri: require(`./img/${v.icon}-active.png`) }}
+                        // icon={{ uri: require(`./img/${v.icon}.png`) }}
+                        icon={<img style={this.iconStyle} src={require(`./img/${v.icon}.png`)} alt='' />}
+                        // selectedIcon={{ uri: require(`./img/${v.icon}-active.png`) }}
+                        selectedIcon={<img style={this.iconStyle} src={require(`./img/${v.icon}-active.png`)} alt='' />}
                         selected={pathname === v.path}
                         onPress={() => { this.props.history.push(v.path) }}>
                     </TabBar.Item>

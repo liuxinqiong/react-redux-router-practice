@@ -21,3 +21,6 @@ React-router4
 
 route + redux
 * 复杂redux应用，多个reducer，用combineReducers合并
+
+总结:
+* react-router不同于angular路由，在DOM结构上，只要不是当前页面显示的内容，在DOM中直接被移除，不存在缓存的概念

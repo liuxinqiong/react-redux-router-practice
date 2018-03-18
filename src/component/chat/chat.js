@@ -3,6 +3,7 @@ import { List, InputItem, NavBar, Icon, Grid } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { sendMsg, getMsgList, recvMsg, readMsg } from '../../redux/chat.redux'
 import { getChatId } from '../../util';
+// import QueueAnim from 'rc-queue-anim'
 
 @connect(
     state => state,
@@ -19,11 +20,8 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
-        // todo：其实还是有问题的，如果初始为空呢
-        if (!this.props.chat.chatmsg.length) {
-            this.props.getMsgList()
-            this.props.recvMsg();
-        }
+        !this.props.chat.list_status && this.props.getMsgList();
+        !this.props.chat.recv_status && this.props.recvMsg();
     }
 
     componentWillUnmount() {
@@ -72,6 +70,7 @@ class Chat extends React.Component {
                     {users[userid].name}
                 </NavBar>
                 <div style={{ marginTop: 45, marginBottom: 45 }}>
+                    {/* <QueueAnim delay={100}> */}
                     {chatmsgs.map(v => {
                         // 消息头像仅和from挂钩
                         const avatar = require(`../img/${users[v.from].avatar}.png`)
@@ -89,6 +88,7 @@ class Chat extends React.Component {
                                 </List>
                             );
                     })}
+                    {/* </QueueAnim> */}
                 </div>
                 <div className='stick-footer'>
                     <List>

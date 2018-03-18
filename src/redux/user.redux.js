@@ -7,6 +7,7 @@ const ERROR_MSG = 'ERROR_MSG';
 const LOAD_DATA = 'LOAD_DATA';
 const AUTH_SUCCESS = 'AUTH_SUCCESS'
 const LOGOUT = 'LOGOUT'
+const TO_REGISTER = 'TO_REGISTER'
 
 const initState = {
     msg: '',
@@ -31,6 +32,8 @@ export function user(state = initState, action) {
             return { ...state, ...action.payload };
         case LOGOUT:
             return { ...initState, redirectTo: '/login' }
+        case TO_REGISTER:
+            return { ...initState, redirectTo: '/register' }
         default:
             return state;
     }
@@ -54,6 +57,10 @@ function authSuccess(obj) {
 // function loginSuccess(data) {
 //     return { type: LOGIN_SUCCESS, payload: data }
 // }
+
+export function toRegister() {
+    return { type: TO_REGISTER }
+}
 
 export function register({ user, pwd, repeatpwd, type }) {
     if (!user || !pwd || !type) {

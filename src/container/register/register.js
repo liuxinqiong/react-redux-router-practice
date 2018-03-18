@@ -1,6 +1,6 @@
 import React from 'react';
 import Logo from '../../component/logo/logo';
-import { List, InputItem, Radio, WingBlank, WhiteSpace, Button } from 'antd-mobile';
+import { List, InputItem, Radio, WhiteSpace, Button } from 'antd-mobile';
 import { connect } from 'react-redux';
 import { register } from '../../redux/user.redux';
 import { Redirect } from 'react-router-dom'
@@ -34,10 +34,17 @@ class Register extends React.Component {
 
     render() {
         const RadioItem = Radio.RadioItem;
+        const pathname = this.props.location.pathname;
+        console.log(this.props.redirectTo);
+        console.log(pathname);
+        console.log(this.props.redirectTo && this.props.redirectTo !== pathname);
         return (
             <div>
-                {/* todo 退出登录开始注册，无法跳转注册页面 */}
-                {this.props.redirectTo ? <Redirect to={this.props.redirectTo}></Redirect> : null}
+                {/* fixed
+                    * redirectTo用来实现注册成功的跳转
+                    * 退出登录开始注册，无法跳转注册页面，因为立马又跳转login页面了
+                */}
+                {this.props.redirectTo && this.props.redirectTo !== pathname ? <Redirect to={this.props.redirectTo}></Redirect> : null}
                 <Logo></Logo>
                 <List>
                     {this.props.msg ? <p className='error-msg'>{this.props.msg}</p> : null}
@@ -49,12 +56,12 @@ class Register extends React.Component {
                     <WhiteSpace />
                     <RadioItem
                         onChange={() => this.props.handleChange('type', 'genius')}
-                        checked={this.props.state.type == 'genius'}>
+                        checked={this.props.state.type === 'genius'}>
                         牛人
                     </RadioItem>
                     <RadioItem
                         onChange={() => this.props.handleChange('type', 'boss')}
-                        checked={this.props.state.type == 'boss'}>
+                        checked={this.props.state.type === 'boss'}>
                         老板
                     </RadioItem>
                     <WhiteSpace />

@@ -34,19 +34,29 @@ router.get('/list', function (req, res) {
 router.get('/getMsgList', function (req, res) {
     const user = req.cookies.userid;
     let users = {};
-    // todo:需要用promise，存在异步问题
-    User.find({}, function (err, doc) {
+    // 需要用promise，存在异步问题
+    // User.find({}, function (err, doc) {
+    //     // 构建user数据字典
+    //     doc.forEach(v => {
+    //         users[v._id] = { name: v.user, avatar: v.avatar }
+    //     });
+    // })
+
+    // Chat.find({ '$or': [{ from: user }, { to: user }] }, function (err, doc) {
+    //     if (!err) {
+    //         return res.json({ code: 0, msgs: doc, users: users })
+    //     }
+    // })
+    const promises = [User.find({}).exec(), Chat.find({ '$or': [{ from: user }, { to: user }] }).exec()];
+    Promise.all(promises).then(function (result) {
+        const [userDoc, msgs] = result;
         // 构建user数据字典
-        doc.forEach(v => {
+        userDoc.forEach(v => {
             users[v._id] = { name: v.user, avatar: v.avatar }
         });
+        return res.json({ code: 0, msgs, users: users })
     })
-
-    Chat.find({ '$or': [{ from: user }, { to: user }] }, function (err, doc) {
-        if (!err) {
-            return res.json({ code: 0, msgs: doc, users: users })
-        }
-    })
+    // todo:最佳方式使用连表查询，直接将from和user转成对象
 })
 
 router.post('/register', function (req, res) {
@@ -97,7 +107,7 @@ router.post('/readMsg', function (req, res) {
 router.post('/update', function (req, res) {
     const userid = req.cookies.userid;
     if (!userid) {
-        return res.dumps({ code: 1 });
+        return res.json({ code: 1 });
     }
     const body = req.body;
     User.findByIdAndUpdate(userid, body, function (err, doc) {

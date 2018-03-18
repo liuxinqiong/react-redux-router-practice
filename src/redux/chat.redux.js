@@ -10,11 +10,17 @@ const MSG_LIST = 'MSG_LIST';
 const MSG_RECV = 'MSG_RECV';
 // 标识已读
 const MSG_READ = 'MSG_READ';
+// 建立监听状态
+const MSG_RECV_STATUS = 'MSG_RECV_STATUS';
+// 消息列表初始化
+const MSG_LIST_STATUS = 'MSG_LIST_STATUS';
 
 const initState = {
     chatmsg: [],
     users: {},
-    unread: 0
+    unread: 0,
+    recv_status: false,
+    list_status: false
 }
 
 export function chat(state = initState, action) {
@@ -30,6 +36,10 @@ export function chat(state = initState, action) {
             return {
                 ...state, chatmsg: state.chatmsg.map(v => ({ ...v, read: from === v.from ? true : v.read })), unread: state.unread - num
             }
+        case MSG_RECV_STATUS:
+            return { ...state, recv_status: true };
+        case MSG_LIST_STATUS:
+            return { ...state, list_status: true }
         default: return state;
     }
 }
@@ -44,11 +54,17 @@ function msgRecv(msg, userid) {
 }
 
 export function recvMsg() {
+
     return (dispatch, getState) => {
-        socket.on('recvmsg', function (data) {
-            const userid = getState().user._id;
-            dispatch(msgRecv(data, userid));
-        });
+        // 是否建立监听状态，防止建立多个socket连接
+        const status = getState().chat.recv_status;
+        if (!status) {
+            dispatch({ type: MSG_RECV_STATUS });
+            socket.on('recvmsg', function (data) {
+                const userid = getState().user._id;
+                dispatch(msgRecv(data, userid));
+            });
+        }
     }
 }
 
@@ -57,13 +73,14 @@ function msgRead({ from, userid, num }) {
 }
 
 export function readMsg(from) {
-    return (dispatch, getState) => {
-        axios.post('/user/readMsg', { from }).then(res => {
-            const userid = getState().user._id;
-            if (res.status === 200 && res.data.code === 0) {
-                dispatch(msgRead({ from, userid, num: res.data.num }))
-            }
-        })
+    return async (dispatch, getState) => {
+        const res = await axios.post('/user/readMsg', { from })
+        // .then(res => {
+        const userid = getState().user._id;
+        if (res.status === 200 && res.data.code === 0) {
+            dispatch(msgRead({ from, userid, num: res.data.num }))
+        }
+        // })
     }
 }
 
@@ -77,12 +94,16 @@ export function sendMsg({ from, to, msg }) {
 export function getMsgList() {
     // getState可以得到redux下所有的state
     return (dispatch, getState) => {
-        axios.get('/user/getMsgList')
-            .then(res => {
-                if (res.status === 200 && res.data.code === 0) {
-                    const userid = getState().user._id;
-                    dispatch(msgList(res.data.msgs, res.data.users, userid));
-                }
-            })
+        const status = getState().chat.list_status;
+        if (!status) {
+            axios.get('/user/getMsgList')
+                .then(res => {
+                    if (res.status === 200 && res.data.code === 0) {
+                        const userid = getState().user._id;
+                        dispatch({ type: MSG_LIST_STATUS });
+                        dispatch(msgList(res.data.msgs, res.data.users, userid));
+                    }
+                })
+        }
     }
 }

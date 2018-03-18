@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from './mini-react-redux';
 import { addGun, removeGun, addGunAsync, addTwice } from './index.redux';
+import { createSelector } from 'reselect';
 
 // const mapStateToProps = (state) => {
 //     return { num: state };
@@ -9,9 +10,17 @@ import { addGun, removeGun, addGunAsync, addTwice } from './index.redux';
 // const actionCreators = { addGun, removeGun, addGunAsync };
 // App = connect(mapStateToProps, actionCreators)(App);
 
+// 加了缓存
+const numSelector = createSelector(
+    state => state.counter,
+    // 第二个参数的参数，是第一个参数的返回值
+    counter => ({ num: counter * 2 })
+)
+
 @connect(
     // 你要state的什么属性放到props
-    state => ({ num: state.counter }),
+    // state => ({ num: state.counter }),
+    state => numSelector(state),
     // 你要什么方法放到props，会自动dispatch
     { addGun, removeGun, addGunAsync, addTwice }
 )

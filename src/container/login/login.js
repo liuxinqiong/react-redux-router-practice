@@ -2,39 +2,39 @@ import React from 'react';
 import Logo from '../../component/logo/logo';
 import { List, InputItem, WingBlank, WhiteSpace, Button } from 'antd-mobile';
 import { connect } from 'react-redux';
-import { login } from '../../redux/user.redux';
+import { login, toRegister } from '../../redux/user.redux';
 import { Redirect } from 'react-router-dom';
 import WithForm from '../../component/withform/withform'
 
-function Hello() {
-    return <h2>hello组件</h2>
-}
+// function Hello() {
+//     return <h2>hello组件</h2>
+// }
 
-function wrapperHello(Comp) {
-    class WrapComp extends Comp {
-        componentDidMount() {
-            console.log('新增生命周期');
-        }
-        return() {
-            return <Comp></Comp>
-        }
-    }
-    // class WrapComp extends React.Component {
-    //     render() {
-    //         return (
-    //             <div>
-    //                 <p>高阶组件特有的元素</p>
-    //                 <Comp {...this.props}></Comp>
-    //             </div>
-    //         );
-    //     }
-    // }
-    return WrapComp;
-}
+// function wrapperHello(Comp) {
+//     class WrapComp extends Comp {
+//         componentDidMount() {
+//             console.log('新增生命周期');
+//         }
+//         return() {
+//             return <Comp></Comp>
+//         }
+//     }
+//     // class WrapComp extends React.Component {
+//     //     render() {
+//     //         return (
+//     //             <div>
+//     //                 <p>高阶组件特有的元素</p>
+//     //                 <Comp {...this.props}></Comp>
+//     //             </div>
+//     //         );
+//     //     }
+//     // }
+//     return WrapComp;
+// }
 
 @connect(
     state => state.user,
-    { login }
+    { login, toRegister }
 )
 @WithForm
 class Login extends React.Component {
@@ -49,7 +49,8 @@ class Login extends React.Component {
     register() {
         // 路由组件，有路由相关的属性
         console.log(this.props);
-        this.props.history.push('/register');
+        //this.props.history.push('/register');
+        this.props.toRegister();
     }
 
     handleLogin() {
