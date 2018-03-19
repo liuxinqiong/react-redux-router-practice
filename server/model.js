@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-
+const DB_URL = require('./config').mongodb;
 // 链接mongo
-const DB_URL = 'mongodb://localhost:27017/jobs';
 mongoose.connect(DB_URL);
 
 const models = {
