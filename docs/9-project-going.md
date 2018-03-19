@@ -403,3 +403,8 @@ setState更新可能是异步的
   * 切换到cnpm install，问题解决
 * 路径问题，mongodb路径和websocket服务路径
   * 设置[mongo用户访问权限](http://www.jb51.net/article/104249.htm)相关时，导致我博客挂了，找不到原因，奇怪的事，我重启一下服务就好了，好像是因为中途数据库断开连接的问题
+* forever如何运行npm命令
+  * 安装npm install babel-register --save
+  * 添加server-wrapper.js
+  * babel-preset-react-app必须添加NODE_ENV等于development、test、production否则报错
+  * 运行NODE_ENV=production forever start server/server-wrapper.js

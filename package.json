@@ -14,6 +14,7 @@
     "babel-loader": "7.1.2",
     "babel-plugin-import": "^1.6.6",
     "babel-preset-react-app": "^3.1.1",
+    "babel-register": "^6.26.0",
     "babel-runtime": "6.26.0",
     "body-parser": "^1.18.2",
     "browser-cookies": "^1.2.0",
