@@ -407,4 +407,4 @@ setState更新可能是异步的
   * 安装npm install babel-register --save
   * 添加server-wrapper.js
   * babel-preset-react-app必须添加NODE_ENV等于development、test、production否则报错
-  * 运行NODE_ENV=production forever start server/server-wrapper.js
+  * 运行NODE_ENV=test forever start server/server-wrapper.js

@@ -4,10 +4,11 @@ import { Result, List, WhiteSpace, Modal } from 'antd-mobile'
 import browserCookie from 'browser-cookies'
 import { logoutSubmit } from '../../redux/user.redux'
 import { Redirect } from 'react-router-dom'
+import { logoutMsg } from '../../redux/chat.redux'
 
 @connect(
     state => state.user,
-    { logoutSubmit }
+    { logoutSubmit, logoutMsg }
 )
 class User extends React.Component {
     constructor(props) {
@@ -17,12 +18,13 @@ class User extends React.Component {
 
     logout() {
         const alert = Modal.alert;
-        alert('注销', '确认退出登录???', [
+        alert('注销', '确认退出当前账号吗？', [
             { text: '取消', onPress: () => console.log('cancel'), style: 'default' },
             {
                 text: '确认', onPress: () => {
                     browserCookie.erase('userid');
                     this.props.logoutSubmit();
+                    this.props.logoutMsg();
                 }
             },
         ]);

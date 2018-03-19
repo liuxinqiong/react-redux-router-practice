@@ -15,6 +15,8 @@ const MSG_READ = 'MSG_READ';
 const MSG_RECV_STATUS = 'MSG_RECV_STATUS';
 // 消息列表初始化
 const MSG_LIST_STATUS = 'MSG_LIST_STATUS';
+// 用户登出
+const MSG_LOGOUT = 'MSG_LOGOUT';
 
 const initState = {
     chatmsg: [],
@@ -40,7 +42,10 @@ export function chat(state = initState, action) {
         case MSG_RECV_STATUS:
             return { ...state, recv_status: true };
         case MSG_LIST_STATUS:
-            return { ...state, list_status: true }
+            return { ...state, list_status: true };
+        case MSG_LOGOUT:
+            // 防止用户切换账号时，不会再次读取消息，测试：socket 是可以复用的，因此依旧置为true
+            return { ...initState, recv_status: true }
         default: return state;
     }
 }
@@ -52,6 +57,10 @@ function msgList(msgs, users, userid) {
 
 function msgRecv(msg, userid) {
     return { userid, type: MSG_RECV, payload: msg }
+}
+
+export function logoutMsg() {
+    return { type: MSG_LOGOUT }
 }
 
 export function recvMsg() {

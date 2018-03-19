@@ -31,14 +31,11 @@ class Dashboard extends React.Component {
 
     render() {
         const user = this.props.user;
-        if (!user.type) {
-            return null;
-        }
         const pathname = this.props.location.pathname;
         // 没有默认页面，不在几者之中会报错，不存在跳转到msg页面
         const navList = [
-            { path: '/boss', text: '牛人', icon: 'boss', title: '牛人列表', component: Boss, hide: user.type === 'genius' },
-            { path: '/genius', text: 'boss', icon: 'job', title: 'BOSS列表', component: Genius, hide: user.type === 'boss' },
+            { path: '/boss', text: '牛人', icon: 'boss', title: '牛人列表', component: Boss, hide: user.type ? user.type === 'genius' : true },
+            { path: '/genius', text: 'boss', icon: 'job', title: 'BOSS列表', component: Genius, hide: user.type ? user.type === 'boss' : true },
             { path: '/msg', text: '消息', icon: 'msg', title: '消息列表', component: Msg },
             { path: '/me', text: '我', icon: 'user', title: '个人中心', component: User },
         ];
