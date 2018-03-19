@@ -10,3 +10,7 @@ axios.interceptors.response.use(function (config) {
     Toast.hide();
     return config;
 })
+
+export const ws = {
+    url: 'ws://localhost:9093'
+}

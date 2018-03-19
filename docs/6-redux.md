@@ -50,7 +50,7 @@ react-redux具体使用
 * Connect可以用装饰器的方式来写
   * 本质是一个高阶组件
   * 自定义配置 npm run eject
-  * npm install babel-plugin-transform-decorators-legacy --save-dev
+  * npm install babel-plugin-transform-decorators-legacy --save 支持注解
   * package.json里babel加上plugins配置
 
 redux后续

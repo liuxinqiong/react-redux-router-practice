@@ -1,8 +1,9 @@
 import axios from 'axios';
 import io from 'socket.io-client';
+import { ws } from '../config';
 
 // 由于存在跨域，所以写上url地址
-const socket = io('ws://localhost:9093');
+const socket = io(ws.url);
 
 // 获取聊天列表
 const MSG_LIST = 'MSG_LIST';
