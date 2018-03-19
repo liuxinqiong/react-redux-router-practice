@@ -395,3 +395,11 @@ Better List
 setState更新可能是异步的
 * 你不能依赖this.state 和 this.props的值计算下一个state
 * 解决这个问题，使用setState的函数形式，该函数接收前一个状态作为第一个参数，应用更新时props作为第二个参数
+
+线上发布：
+* 使用git部署到服务器npm install一直报错killed导致无法完成
+  * 有可能是内存太小的问题，设置[swap交换分区](http://man.linuxde.net/mkswap)，但我并没有解决
+    * [阿里云服务器Linux环境下执行npm install和webpack打包导致killed问题解决](https://www.imooc.com/article/19208)
+  * 切换到cnpm install，问题解决
+* 路径问题，mongodb路径和websocket服务路径
+  * 设置[mongo用户访问权限](http://www.jb51.net/article/104249.htm)相关时，导致我博客挂了，找不到原因，奇怪的事，我重启一下服务就好了，好像是因为中途数据库断开连接的问题
