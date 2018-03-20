@@ -18,7 +18,7 @@ const initState = {
     chatmsg: [],
     users: {},
     unread: 0,
-    statue: false
+    status: false
 }
 
 export function chat(state = initState, action) {
@@ -53,7 +53,7 @@ export function recvMsg() {
 
     return (dispatch, getState) => {
         // 是否建立监听状态，防止建立多个socket连接
-        const status = getState().chat.recv_status;
+        const status = getState().chat.status;
         if (!status) {
             dispatch({ type: MSG_RECV_STATUS });
             socket.on('recvmsg', function (data) {
