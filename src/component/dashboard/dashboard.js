@@ -45,7 +45,7 @@ class Dashboard extends React.Component {
             page ? (
                 <div>
                     <NavBar className='fixed-header' mode='dark'>{page.title}</NavBar>
-                    <div style={{ marginTop: 45 }}>
+                    <div style={{ marginTop: 45, marginBottom: 45 }}>
                         <QueueAnim type='scaleX' duration={800}>
                             <Route key={page.path} path={page.path} component={page.component}></Route>
                             {/* <Switch>

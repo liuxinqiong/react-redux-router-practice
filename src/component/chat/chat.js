@@ -3,7 +3,7 @@ import { List, InputItem, NavBar, Icon, Grid } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { sendMsg, getMsgList, recvMsg, readMsg } from '../../redux/chat.redux'
 import { getChatId } from '../../util';
-// import QueueAnim from 'rc-queue-anim'
+import QueueAnim from 'rc-queue-anim'
 
 @connect(
     state => state,
@@ -70,25 +70,28 @@ class Chat extends React.Component {
                     {users[userid].name}
                 </NavBar>
                 <div style={{ marginTop: 45, marginBottom: 45 }}>
-                    {/* <QueueAnim delay={100}> */}
-                    {chatmsgs.map(v => {
-                        // 消息头像仅和from挂钩
-                        const avatar = require(`../img/${users[v.from].avatar}.png`)
-                        return v.from === userid ? (
-                            <List key={v._id}>
+                    <List >
+                        {/* <QueueAnim delay={100}> */}
+                        {chatmsgs.map(v => {
+                            // 消息头像仅和from挂钩
+                            const avatar = require(`../img/${users[v.from].avatar}.png`)
+                            return v.from === userid ? (
                                 <Item
+                                    key={v._id}
                                     thumb={avatar}
+                                    wrap={true}
                                 >{v.content}</Item>
-                            </List>
-                        ) : (
-                                <List key={v._id}>
+                            ) : (
                                     <Item
+                                        key={v._id}
+                                        wrap={true}
                                         extra={<img src={avatar} alt='' />}
                                         className='chat-me'>{v.content}</Item>
-                                </List>
-                            );
-                    })}
-                    {/* </QueueAnim> */}
+                                );
+                        })
+                        }
+                        {/* </QueueAnim> */}
+                    </List>
                 </div>
                 <div className='stick-footer'>
                     <List>

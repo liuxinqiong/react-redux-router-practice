@@ -391,6 +391,9 @@ Bug List
 Better List
 * 连表查询
 * 消息仅推送给相关人，而不是广播
+* 回车发送
+* 滚动到底部
+* 发送表情，消息遮挡问题
 
 setState更新可能是异步的
 * 你不能依赖this.state 和 this.props的值计算下一个state

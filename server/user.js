@@ -33,6 +33,7 @@ router.get('/list', function (req, res) {
 
 router.get('/getMsgList', function (req, res) {
     const user = req.cookies.userid;
+    console.log(`读取cookie${user}成功`)
     let users = {};
     // 需要用promise，存在异步问题
     // User.find({}, function (err, doc) {
@@ -126,6 +127,7 @@ router.post('/login', function (req, res) {
             return res.json({ code: 1, msg: '用户名或密码错误' });
         }
         res.cookie('userid', doc._id)
+        console.log(`设置cookie${doc._id}成功`);
         return res.json({ code: 0, data: doc });
     })
 })
