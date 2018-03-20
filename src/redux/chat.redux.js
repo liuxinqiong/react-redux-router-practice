@@ -13,17 +13,12 @@ const MSG_RECV = 'MSG_RECV';
 const MSG_READ = 'MSG_READ';
 // 建立监听状态
 const MSG_RECV_STATUS = 'MSG_RECV_STATUS';
-// 消息列表初始化
-const MSG_LIST_STATUS = 'MSG_LIST_STATUS';
-// 用户登出
-const MSG_LOGOUT = 'MSG_LOGOUT';
 
 const initState = {
     chatmsg: [],
     users: {},
     unread: 0,
-    recv_status: false,
-    list_status: false
+    statue: false
 }
 
 export function chat(state = initState, action) {
@@ -40,12 +35,7 @@ export function chat(state = initState, action) {
                 ...state, chatmsg: state.chatmsg.map(v => ({ ...v, read: from === v.from ? true : v.read })), unread: state.unread - num
             }
         case MSG_RECV_STATUS:
-            return { ...state, recv_status: true };
-        case MSG_LIST_STATUS:
-            return { ...state, list_status: true };
-        case MSG_LOGOUT:
-            // 防止用户切换账号时，不会再次读取消息，测试：socket 是可以复用的，因此依旧置为true
-            return { ...initState, recv_status: true }
+            return { ...state, status: true };
         default: return state;
     }
 }
@@ -57,10 +47,6 @@ function msgList(msgs, users, userid) {
 
 function msgRecv(msg, userid) {
     return { userid, type: MSG_RECV, payload: msg }
-}
-
-export function logoutMsg() {
-    return { type: MSG_LOGOUT }
 }
 
 export function recvMsg() {
@@ -104,16 +90,12 @@ export function sendMsg({ from, to, msg }) {
 export function getMsgList() {
     // getState可以得到redux下所有的state
     return (dispatch, getState) => {
-        const status = getState().chat.list_status;
-        if (!status) {
-            axios.get('/user/getMsgList')
-                .then(res => {
-                    if (res.status === 200 && res.data.code === 0) {
-                        const userid = getState().user._id;
-                        dispatch({ type: MSG_LIST_STATUS });
-                        dispatch(msgList(res.data.msgs, res.data.users, userid));
-                    }
-                })
-        }
+        axios.get('/user/getMsgList')
+            .then(res => {
+                if (res.status === 200 && res.data.code === 0) {
+                    const userid = getState().user._id;
+                    dispatch(msgList(res.data.msgs, res.data.users, userid));
+                }
+            })
     }
 }

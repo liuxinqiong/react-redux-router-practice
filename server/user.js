@@ -10,11 +10,11 @@ router.get('/info', function (req, res) {
     const { userid } = req.cookies;
     if (!userid) {
         // 用户有没有cookie
-        res.json({ code: 1 });
+        return res.json({ code: 1, msg: 'cookie为空' });
     }
     User.findOne({ _id: userid }, _filter, function (err, doc) {
         if (err) {
-            return res.json({ code: 0, msg: '服务器出错啦' });
+            return res.json({ code: 1, msg: '服务器出错啦' });
         }
         if (doc) {
             return res.json({ code: 0, data: doc });
@@ -27,13 +27,19 @@ router.get('/list', function (req, res) {
     const type = req.query.type;
     const filter = type ? { type } : {};
     User.find(filter, function (err, doc) {
-        res.json({ code: 0, data: doc });
+        if (err) {
+            return res.json({ code: 1, msg: '服务器出错啦' });
+        }
+        return res.json({ code: 0, data: doc });
     })
 })
 
 router.get('/getMsgList', function (req, res) {
     const user = req.cookies.userid;
-    console.log(`读取cookie${user}成功`)
+    if (!user) {
+        // 用户有没有cookie
+        return res.json({ code: 1, msg: 'cookie为空' });
+    }
     let users = {};
     // 需要用promise，存在异步问题
     // User.find({}, function (err, doc) {
@@ -56,6 +62,8 @@ router.get('/getMsgList', function (req, res) {
             users[v._id] = { name: v.user, avatar: v.avatar }
         });
         return res.json({ code: 0, msgs, users: users })
+    }).catch(function (e) {
+        return res.json({ code: 1, msg: '服务器出错啦' })
     })
     // todo:最佳方式使用连表查询，直接将from和user转成对象
 })
@@ -91,6 +99,10 @@ router.post('/register', function (req, res) {
 
 router.post('/readMsg', function (req, res) {
     const userid = req.cookies.userid;
+    if (!userid) {
+        // 用户有没有cookie
+        return res.json({ code: 1, msg: 'cookie为空' });
+    }
     const { from } = req.body;
     Chat.update(
         { from, to: userid },
@@ -108,10 +120,14 @@ router.post('/readMsg', function (req, res) {
 router.post('/update', function (req, res) {
     const userid = req.cookies.userid;
     if (!userid) {
-        return res.json({ code: 1 });
+        // 用户有没有cookie
+        return res.json({ code: 1, msg: 'cookie为空' });
     }
     const body = req.body;
     User.findByIdAndUpdate(userid, body, function (err, doc) {
+        if (err) {
+            return res.json({ code: 1, msg: '服务器出错了' });
+        }
         const data = Object.assign({}, {
             user: doc.user,
             type: doc.type
@@ -127,7 +143,6 @@ router.post('/login', function (req, res) {
             return res.json({ code: 1, msg: '用户名或密码错误' });
         }
         res.cookie('userid', doc._id)
-        console.log(`设置cookie${doc._id}成功`);
         return res.json({ code: 0, data: doc });
     })
 })

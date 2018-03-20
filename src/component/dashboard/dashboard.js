@@ -21,8 +21,8 @@ class Dashboard extends React.Component {
     // }
 
     componentDidMount() {
-        !this.props.chat.list_status && this.props.getMsgList();
-        !this.props.chat.recv_status && this.props.recvMsg();
+        this.props.recvMsg();
+        this.props.getMsgList();
     }
 
     componentWillUnmount() {
@@ -40,6 +40,7 @@ class Dashboard extends React.Component {
             { path: '/me', text: '我', icon: 'user', title: '个人中心', component: User },
         ];
         const page = navList.find(v => v.path === pathname)
+        console.log(pathname, page)
         // 让动画生效，只渲染一个Route，根据当前的path决定组件
         return (
             page ? (

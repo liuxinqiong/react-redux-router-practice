@@ -20,8 +20,8 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
-        !this.props.chat.list_status && this.props.getMsgList();
-        !this.props.chat.recv_status && this.props.recvMsg();
+        this.props.getMsgList();
+        this.props.recvMsg();
     }
 
     componentWillUnmount() {
