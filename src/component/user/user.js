@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Result, List, WhiteSpace, Modal } from 'antd-mobile'
+import { Result, List, WhiteSpace, Modal, ActionSheet } from 'antd-mobile'
 import browserCookie from 'browser-cookies'
 import { logoutSubmit } from '../../redux/user.redux'
 import { withRouter } from 'react-router-dom'
@@ -16,18 +16,41 @@ class User extends React.Component {
         this.logout = this.logout.bind(this);
     }
 
-    logout() {
-        const alert = Modal.alert;
-        alert('注销', '确认退出当前账号吗？', [
-            { text: '取消', onPress: () => console.log('cancel'), style: 'default' },
-            {
-                text: '确认', onPress: () => {
+    logout = () => {
+
+        const BUTTONS = ['确认', '取消'];
+        ActionSheet.showActionSheetWithOptions({
+            options: BUTTONS,
+            cancelButtonIndex: BUTTONS.length - 1,
+            destructiveButtonIndex: BUTTONS.length - 2,
+            title: '注销',
+            message: '确认退出当前账号吗？',
+            maskClosable: true
+        }, (buttonIndex) => {
+            switch (buttonIndex) {
+                case 0:
                     browserCookie.erase('userid');
                     this.props.logoutSubmit();
                     this.props.history.push('/login');
-                }
-            },
-        ]);
+                    break;
+                default:
+                    console.log('取消啦');
+                    break;
+            }
+        });
+
+        // 奇怪问题，线上事件不响应
+        // const alert = Modal.alert;
+        // alert('注销', '确认退出当前账号吗？', [
+        //     { text: '取消', onPress: () => console.log('cancel'), style: 'default' },
+        //     {
+        //         text: '确认', onPress: () => {
+        //             browserCookie.erase('userid');
+        //             this.props.logoutSubmit();
+        //             this.props.history.push('/login');
+        //         }
+        //     },
+        // ]);
     }
 
     render() {
