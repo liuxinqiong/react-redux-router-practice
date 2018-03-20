@@ -40,7 +40,6 @@ class Msg extends React.Component {
                     if (!users[targetId]) {
                         return null;
                     }
-                    console.log(users[targetId]);
                     return (
                         <List key={lastItem._id}>
                             <Item

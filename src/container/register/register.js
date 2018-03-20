@@ -35,9 +35,6 @@ class Register extends React.Component {
     render() {
         const RadioItem = Radio.RadioItem;
         const pathname = this.props.location.pathname;
-        console.log(this.props.redirectTo);
-        console.log(pathname);
-        console.log(this.props.redirectTo && this.props.redirectTo !== pathname);
         return (
             <div>
                 {/* fixed
