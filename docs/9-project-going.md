@@ -411,3 +411,6 @@ setState更新可能是异步的
   * 添加server-wrapper.js
   * babel-preset-react-app必须添加NODE_ENV等于development、test、production否则报错
   * 运行NODE_ENV=test forever start server/server-wrapper.js
+* 端口被占用
+  * netstat -tunlp|grep port
+  * kill pid
