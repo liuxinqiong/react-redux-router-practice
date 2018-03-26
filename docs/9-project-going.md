@@ -377,9 +377,9 @@ npm scripts
 2. npm run build之后，src文件夹其实就可以脱离出来了
 
 Bug List
-* SSR之后牛人图片出现问题
+* ~~SSR之后牛人图片出现问题~~
   * assethook：添加limit: 8000属性
-* build之后icon空缺问题
+* ~~build之后icon空缺问题~~
   * 服务端需要额外配置
   * npm install serve-favicon --save
 * SSR server文件引用src下资源，是否合适
