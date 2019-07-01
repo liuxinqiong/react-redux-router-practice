@@ -7,10 +7,9 @@ import { bindActionCreators } from './mini-redux'
 /**
  * 1. 负责接受一个组件，把state里的一些数据放进去，返回一个组件
  * 2. 数据变化的时候，能够通知组件
- * 3. params: 
+ * 3. params:
  *      mapStateToProps, 函数
  *      mapDispatchToProps 函数或对象
- *  
  */
 // 双层箭头函数
 export const connect = (mapStateToProps = state => state, mapDispatchToProps = {}) => (WrapComponent) => {
@@ -40,7 +39,7 @@ export const connect = (mapStateToProps = state => state, mapDispatchToProps = {
             // console.log(this.state.props);
             this.setState({
                 props: {
-                    ...this.state.props,//本身的props                    
+                    ...this.state.props,//本身的props
                     ...stateProps,
                     ...dispatchProps
                 }

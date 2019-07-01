@@ -13,14 +13,14 @@ mongodb + mongoose
 
 mongoose基础使用
 * 链接数据库
-* 定义文档模型，Scheme和model新建模型
+* 定义文档模型，Scheme 和 model 新建模型
 
 mongoose文档类型
-* String、Number等数据结构
-* 定create、remove、update分别用来增、删、改的操作
-* find和findone用来查询数据
+* String、Number 等数据结构
+* create、remove、update 分别用来增、删、改的操作
+* find 和 findone 用来查询数据
 
-Express和mongodb结合
-* mongodb独立工具函数
-* express使用body-parser支持post参数
-* 使用cookie-parser存储登录信息cookie
+Express 和 mongodb 结合
+* mongodb 独立工具函数
+* express 使用 body-parser 支持 post 参数
+* 使用 cookie-parser 存储登录信息 cookie
